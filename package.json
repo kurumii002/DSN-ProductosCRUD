@@ -1,0 +1,33 @@
+{
+  "name": "landingpage-crud",
+  "version": "1.0.0",
+  "description": "App con TS (CRUD y landing page)",
+  "main": "index.js",
+  "scripts": {
+    "dev": "ts-node src/index.ts",
+    "compile": "npx tsc",
+	"clean": "rimraf ./dist",
+    "copydir:views": "ncp ./src/views/ ./dist/views/",
+    "build": "npm run clean && npm run compile && npm run copydir:views",
+	"start": "node dist/index.js"
+  },
+  "keywords": [
+    "TypeScript"
+  ],
+  "author": "Jamutaq Ortega",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/express": "^4.17.13",
+    "@types/express-handlebars": "^5.3.1",
+    "@types/node": "^16.10.3",
+    "ts-node": "^10.2.1",
+    "typescript": "^4.4.3"
+  },
+  "dependencies": {
+    "express": "^4.17.1",
+    "express-handlebars": "^5.3.4",
+    "mongoose": "^6.0.9",
+    "ncp": "^2.0.0",
+    "rimraf": "^3.0.2"
+  }
+}

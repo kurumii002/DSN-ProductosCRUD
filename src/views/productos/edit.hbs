@@ -1,0 +1,31 @@
+<div class="row">
+	<div class="col-md-4 offset-md-4">
+		<div class="card">
+			<div class="card-body">
+				<form action="/productos/edit/{{producto._id}}" method="post">
+					<div class="input-group mb-3">
+						<input type="text" name="nombre" value="{{producto.nombre}}" placeholder="Nombre"
+							class="form-control" autofocus>
+					</div>
+					<div class="input-group mb-3">
+						<input type="text" name="marca" value="{{producto.marca}}" placeholder="Marca"
+							class="form-control">
+					</div><div class="input-group mb-3">
+						<input type="text" name="precio_venta" value="{{producto.precio_venta}}" placeholder="Precio venta"
+							class="form-control">
+					</div><div class="input-group mb-3">
+						<input type="text" name="precio_compra" value="{{producto.precio_compra}}" placeholder="Precio compra"
+							class="form-control">
+					</div><div class="input-group mb-3">
+						<input type="text" name="pais_procedencia" value="{{producto.pais_procedencia}}" placeholder="País procedencia"
+							class="form-control">
+					</div>
+
+					<button type="submit" class="btn btn-success col-12">
+						Guardar
+					</button>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
