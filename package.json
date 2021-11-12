@@ -1,7 +1,7 @@
 {
-  "name": "landingpage-crud",
+  "name": "productos-crud",
   "version": "1.0.0",
-  "description": "App con TS (CRUD y landing page)",
+  "description": "CRUD de productos con imágenes utilizando el API de Cloudinary",
   "main": "index.js",
   "scripts": {
     "dev": "ts-node src/index.ts",
