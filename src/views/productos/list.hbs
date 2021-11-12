@@ -1,6 +1,6 @@
 <div class="row col-3 mx-auto mb-4">
 	<a href="/productos/create" class="btn btn-success">
-		Registrar producto
+		<i class="bi bi-plus-circle"></i> Registrar producto
 	</a>
 </div>
 
@@ -9,6 +9,7 @@
 			<table class="table">
 				<thead>
 					<tr>
+						<th scope="col">Imagen</th>
 						<th scope="col">Nombre</th>
 						<th scope="col">Marca</th>
 						<th scope="col">P. venta</th>
@@ -19,14 +20,15 @@
 				</thead>
 				<tbody>
 					<tr>
+						<td><img src="{{url_imagen}}" class="img-thumbnail img-fluid" width="100"></td>
 						<td>{{nombre}}</td>
 						<td>{{marca}}</td>
 						<td>S/. {{precio_venta}}</td>
 						<td>S/. {{precio_compra}}</td>
 						<td>{{pais_procedencia}}</td>
 						<td>
-							<a href="/productos/delete/{{_id}}" class="btn btn-danger">Eliminar</a>
-							<a href="/productos/edit/{{_id}}" class="btn btn-secondary">Editar</a>
+							<a href="/productos/delete/{{_id}}" class="btn btn-danger"><i class="bi bi-trash"></i></a>
+							<a href="/productos/edit/{{_id}}" class="btn btn-warning"><i class="bi bi-pencil-square"></i></a>
 						</td>
 					</tr>
 				</tbody>

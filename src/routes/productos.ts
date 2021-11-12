@@ -1,23 +1,34 @@
 import { Router, Request, Response } from "express";
+import { uploadToCloudinary, deleteImage } from "../cloudinary";
+import { config } from "dotenv";
+config();
 
 const router = Router();
 
-//modelo db
-import Producto from "../models/Producto"
+const upload = uploadToCloudinary();
 
+//importar modelo db
+import { Producto } from "../models/Producto";
 
 //RUTAS
 router.route("/create")
 	.get((req: Request, res: Response) => {
-		res.render("productos/create")
+		res.render("productos/create");
 	})
-	.post(async (req: Request, res: Response) => {
+	.post(upload.single("imagen"), async (req: Request, res: Response) => {
+		const url_img = req.file?.path; //obtiene la url de la imagen subida a Cloudinary
 		const { nombre, marca, precio_venta, precio_compra, pais_procedencia } = req.body;
 
-		const newProducto = new Producto({ nombre, marca, precio_venta, precio_compra, pais_procedencia });
-		await newProducto.save();
+		await Producto.create({ 
+			nombre: nombre, 
+			marca: marca, 
+			precio_venta: precio_venta,
+			precio_compra: precio_compra, 
+			pais_procedencia: pais_procedencia,
+			url_imagen: url_img 
+		});
 
-		//cuando se guarda, que redireccione a la lista
+		//cuando se guarda el producto, que redireccione a la lista
 		res.redirect("/productos/list");
 	});
 
@@ -26,29 +37,71 @@ router.route("/list")
 		const productos = await Producto.find().lean();
 		console.log(productos);
 		res.render("productos/list", { productos });
-	})
+	});
 
 router.route("/delete/:id")
 	.get(async (req: Request, res: Response) => {
-		const { id } = req.params; //guardar el ID
-		await Producto.findByIdAndDelete(id); //buscar x ID y eliminar
+		//guardar el ID que se obtiene de la url
+		const { id } = req.params;
+		//busca x ID y obtiene los datos del producto
+		const producto_data = await Producto.findByIdAndDelete(id);
+
+		if (producto_data) {
+			//se obtiene el public id de la imagen
+			const url_components = (producto_data.url_imagen).split("/");
+			const id_img = url_components[8].split(".")[0];
+			const public_id = `${url_components[7]}/${id_img}`;
+
+			//se elimina la imagen de cloudinary
+			deleteImage(public_id);
+
+			//se eliminan el producto de la BD
+			await Producto.findByIdAndDelete(id);
+		}
 
 		res.redirect("/productos/list");
-	})
+	});
 
 router.route("/edit/:id")
 	.get(async (req: Request, res: Response) => {
-		const { id } = req.params;
-		const producto = await Producto.findById(id).lean();
+		const producto = await Producto.findById(req.params.id).lean();
 
 		res.render("productos/edit", { producto });
 	})
-	.post(async (req: Request, res: Response) => {
-		const { id } = req.params; //obtener el ID x el url
-		const { nombre, marca, precio_venta, precio_compra, pais_procedencia } = req.body; //obtener los datos actualizados mediante el form
+	.post(upload.single("imagen"), async (req: Request, res: Response) => {
+		const { id } = req.params;
+		//obtener los datos actualizados mediante el form
+		const { nombre, marca, precio_venta, precio_compra, pais_procedencia } = req.body;
 
+		const producto_data = await Producto.findByIdAndUpdate(id, { nombre, marca, precio_venta, precio_compra, pais_procedencia });
+
+		if (req.file) { //si se sube una imagen en el formulario
+			if (producto_data) {
+				//se obtiene el public id de la imagen
+				const url_components = (producto_data.url_imagen).split("/");
+				const id_img = url_components[8].split(".")[0];
+				const public_id = `${url_components[7]}/${id_img}`;
+			
+				//se elimina la imagen antigua de cloudinary
+				deleteImage(public_id);
+			}
+
+			const url_img = req.file.path;
+
+			//actualiza los datos del producto includa la imagen
+			await Producto.findByIdAndUpdate(id, { 
+				nombre: nombre, 
+				marca: marca, 
+				precio_venta: precio_venta, 
+				precio_compra: precio_compra, 
+				pais_procedencia: pais_procedencia, 
+				url_imagen: url_img 
+			});
+		}
+
+		//sino solo actualiza los demas datos sin img
 		await Producto.findByIdAndUpdate(id, { nombre, marca, precio_venta, precio_compra, pais_procedencia });
-
+		
 		res.redirect("/productos/list");
 	});
 

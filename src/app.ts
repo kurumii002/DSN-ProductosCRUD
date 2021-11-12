@@ -3,11 +3,11 @@ import exphbs from "express-handlebars";
 import path from "path";
 
 //importar rutas
-import indexRoutes from "./routes";
-import productosRoutes from "./routes/productos";
+import indexRouter from "./routes";
+import productoRouter from "./routes/productos";
 
-class Application {
-	app: express.Application; //instancia de express
+export class Application {
+	private app: express.Application; //instancia de express
 
 	constructor() {
 		this.app = express(); //express se va a ejecutar
@@ -21,8 +21,7 @@ class Application {
 		//establecer variables en express
 		this.app.set("port", 3000);
 		this.app.set("views", path.join(__dirname, "views"));
-
-		console.log(path.join(__dirname, "views"))
+		this.app.use("/uploads", express.static("uploads"));
 
 		//configurar la plantillas
 		this.app.engine(".hbs", exphbs({
@@ -40,15 +39,17 @@ class Application {
 	}
 
 	routes() {
-		this.app.use(indexRoutes); //usar las rutas importadas
-		this.app.use("/productos", productosRoutes);
+		this.app.use(indexRouter); //usar las rutas importadas
+		this.app.use("/productos", productoRouter);
 	}
 
 	start() {
-		this.app.listen(this.app.get("port"), () => {
-			console.log(`Escuchando en puerto ${this.app.get("port")}`);
-		});
+		try {
+			this.app.listen(this.app.get("port"), () => {
+				console.log(`Escuchando en puerto ${this.app.get("port")}`);
+			});
+		} catch (error) {
+			console.error(error);
+		}
 	}
 }
-
-export default Application;

@@ -1,13 +1,16 @@
 import mongoose from "mongoose";
+import { config } from "dotenv";
+config();
 
-async function connect(){
-    try{
-        mongoose.connect("mongodb://localhost/dsn_lab8");
-        console.log(">>MONGODB CONECTADO");
+/**
+ * Función para hacer la conexión a MongoDB
+ */
+export async function connectDatabase() {
+	try {
+		mongoose.connect(process.env.MONGODB_URL!);
+		console.log(">>MONGODB CONECTADO");
 
-    }catch{
-        console.log(">>ERROR AL CONECTAR A MONGODB");
-    }
+	} catch {
+		console.log(">>ERROR AL CONECTAR A MONGODB");
+	}
 }
-
-export default connect;

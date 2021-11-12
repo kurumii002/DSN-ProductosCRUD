@@ -1,8 +1,16 @@
 //encargado de ejecutar la aplicacion
-import App from "./app";
-import database from "./database";
+import { Application } from "./app";
+import { connectDatabase } from "./database";
+import { connectCloudinary } from "./cloudinary";
 
-//iniciando el servidora
-database();
-const app = new App();
-app.start();
+//iniciando el servidor
+try {
+	connectDatabase();
+	connectCloudinary();
+
+	new Application().start();
+
+} catch (error) {
+	console.log(error);
+	process.exit(1);
+}
