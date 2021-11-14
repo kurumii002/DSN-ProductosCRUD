@@ -1,10 +1,11 @@
-<h1 class="mb-4">Listado de productos</h1>
+<h1 class="mb-4">Buscar productos</h1>
 
 <div class="row mb-4">
     <div class="col text-center">
-      	<a href="/productos/create" class="btn btn-success">
-			<i class="bi bi-plus-circle"></i> Registrar producto
-		</a>
+		<form action="/productos/search" method="post" class="input-group">
+        	<input class="form-control" type="text" placeholder="Buscar por nombre" name="frmBuscar">
+        	<button class="btn btn-primary" type="submit"><i class="bi bi-search"></i> Buscar</button>
+      	</form>
     </div>
 </div>
 
@@ -20,9 +21,9 @@
 				<th scope="col">Procedencia</th>
 				<th scope="col">Acciones</th>
 			</tr>
-			</thead>
+		</thead>
 		<tbody>
-			{{#each productos}}
+			{{#each prods}}
 				<tr>
 					<td><img src="{{url_imagen}}" class="img-thumbnail img-fluid" width="100"></td>
 					<td>{{nombre}}</td>
