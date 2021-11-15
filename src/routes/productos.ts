@@ -44,7 +44,7 @@ router.route("/delete/:id")
 		//guardar el ID que se obtiene de la url
 		const { id } = req.params;
 		//busca x ID y obtiene los datos del producto
-		const producto_data = await Producto.findByIdAndDelete(id);
+		const producto_data = await Producto.findById(id).lean();
 
 		if (producto_data) {
 			//se obtiene el public id de la imagen
