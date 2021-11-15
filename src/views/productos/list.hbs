@@ -1,0 +1,44 @@
+<h1 class="mb-4">Listado de productos</h1>
+
+<div class="row mb-4">
+    <div class="col text-center">
+      	<a href="/productos/create" class="btn btn-success">
+			<i class="bi bi-plus-circle"></i> Registrar producto
+		</a>
+    </div>
+</div>
+
+<div class="row">
+	<table class="table table-striped table-hover table-bordered text-center align-middle">
+		<thead>
+			<tr>
+				<th scope="col">Imagen</th>
+				<th scope="col">Nombre</th>
+				<th scope="col">Marca</th>
+				<th scope="col">P. venta</th>
+				<th scope="col">P. compra</th>
+				<th scope="col">Procedencia</th>
+				<th scope="col">Acciones</th>
+			</tr>
+			</thead>
+		<tbody>
+			{{#each productos}}
+				<tr>
+					<td><img src="{{dataValues.url_imagen}}" class="img-thumbnail img-fluid" width="100"></td>
+					<td>{{dataValues.nombre}}</td>
+					<td>{{dataValues.marca}}</td>
+					<td>S/. {{dataValues.precio_venta}}</td>
+					<td>S/. {{dataValues.precio_compra}}</td>
+					<td>{{dataValues.pais_procedencia}}</td>
+					<td>
+						<a href="/productos/delete/{{dataValues.id}}" class="btn btn-danger"><i class="bi bi-trash"></i></a>
+						<a href="/productos/edit/{{dataValues.id}}" class="btn btn-warning"><i class="bi bi-pencil-square"></i></a>
+					</td>
+				</tr>
+			{{/each}}
+		</tbody>
+	</table>
+</div>
+
+
+
