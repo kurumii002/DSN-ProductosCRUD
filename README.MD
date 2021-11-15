@@ -4,4 +4,4 @@
    
 ## Variables de entorno
 1. Quitar el .example del archivo .env
-2. Pegar la url de conexión de la base de datos MongoDB y los demás datos de Cloudinary
+2. Pegar la url de conexión de la base de datos SQL y los demás datos de Cloudinary
